@@ -6,30 +6,31 @@
 				<router-link class="router-link" :to="{ name: 'Login' }">Login</router-link>
 			</p>
 			<h2 class="title">Create Account</h2>
-			<form class="form-wrapper">
+
+			<form class="form-wrapper" id="register">
 				<div class="input-box">
-					<input type="text" placeholder="First Name" v-model="firstName" class="input-field" />
+					<input type="text" placeholder="First Name" v-model="firstName" class="input-field" required />
 					<user class="icon" />
 				</div>
 				<div class="input-box">
-					<input type="text" placeholder="Last Name" v-model="lastName" class="input-field" />
+					<input type="text" placeholder="Last Name" v-model="lastName" class="input-field" required />
 					<user class="icon" />
 				</div>
 				<div class="input-box">
-					<input type="text" placeholder="Username" v-model="username" class="input-field" />
+					<input type="text" placeholder="Username" v-model="username" class="input-field" required />
 					<user class="icon" />
 				</div>
 				<div class="input-box">
-					<input type="text" placeholder="Email" v-model="email" class="input-field" />
+					<input type="email" placeholder="Email" v-model="email" class="input-field" required />
 					<email class="icon" />
 				</div>
 				<div class="input-box">
-					<input type="password" placeholder="Password" v-model="password" class="input-field" />
+					<input type="password" placeholder="Password" v-model="password" class="input-field" required />
 					<password class="icon" />
 				</div>
+				<button @click.prevent="register" class="submitbtn">Create Account</button>
 			</form>
-			<div class="error-message" v-show="error">{{ this.errorMsg }}</div>
-			<button @click.prevent="register" class="submitbtn">Create Account</button>
+			<div class="error-message" v-if="error">{{ this.errorMsg }}</div>
 		</div>
 	</div>
 </template>
@@ -56,31 +57,56 @@ export default {
 			username: "",
 			email: "",
 			password: "",
-			error: null,
+			error: false,
 			errorMsg: "",
 		};
 	},
 	methods: {
-		async register() {
-			if (this.email !== "" && this.password !== "" && (this.firstName !== "") & (this.lastName !== "") && this.username !== "") {
-				this.error = false; //reset the error state & sign a user up
-				this.error = "";
-				const firebaseAuth = await firebase.auth();
-				const createUser = await firebaseAuth.createUserWithEmailAndPassword(this.email, this.password);
-				const result = await createUser;
-				const dataBase = db.collection("users").doc(result.user.uid); //creating a collection in firebase and inserting the user there.
-				await dataBase.set({
-					firstName: this.firstName,
-					lastName: this.lastName,
-					username: this.username,
-					email: this.email,
-				});
-				this.$router.push({ name: "Home" });
+		// async register() {
+		// 	if (this.email !== "" && this.password !== "" && (this.firstName !== "") & (this.lastName !== "") && this.username !== "") {
+		// 		this.error = false; //reset the error state & sign a user up
+		// 		this.error = "";
+		// 		const firebaseAuth = await firebase.auth();
+		// 		const createUser = await firebaseAuth.createUserWithEmailAndPassword(this.email, this.password);
+		// 		const result = await createUser;
+		// 		const dataBase = db.collection("users").doc(result.user.uid); //creating a collection in firebase and inserting the user there.
+		// 		await dataBase.set({
+		// 			firstName: this.firstName,
+		// 			lastName: this.lastName,
+		// 			username: this.username,
+		// 			email: this.email,
+		// 		});
+		// 		this.$router.push({ name: "Home" });
+		// 		return;
+		// 	}
+		// 	this.error = true;
+		// 	this.errorMsg = "Please fill out all the fields!";
+		// 	return;
+		// },
+		register() {
+			if (this.firstName === "" || this.lastName === "" || this.username === "" || this.email === "" || this.password === "") {
+				this.error = true;
+				this.errorMsg = "Please, fill all the fields.";
 				return;
 			}
-			this.error = true;
-			this.errorMsg = "Please fill out all the fields!";
-			return;
+			firebase
+				.auth()
+				.createUserWithEmailAndPassword(this.email, this.password)
+				.then((user) => {
+					//creating a collection in firebase and inserting the user there.
+					db.collection("users").doc(user.user.uid).set({
+						firstName: this.firstName,
+						lastName: this.lastName,
+						username: this.username,
+						email: this.email,
+					});
+					this.$store.commit("updateUser", user.user);
+					this.$router.push({ name: "Home" });
+				})
+				.catch((err) => {
+					this.error = true;
+					this.errorMsg = err.message;
+				});
 		},
 	},
 };
@@ -110,6 +136,7 @@ export default {
 	width: 100%;
 	justify-items: center;
 	padding-left: 50px;
+	cursor: text;
 }
 
 @media (max-width: 1024px) {

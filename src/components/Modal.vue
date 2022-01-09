@@ -1,8 +1,8 @@
 <template>
     <div class="modal">
-        <div class="modal-content">
-            <p>{{this.modalMessage}}</p>
-            <button @click="closeModal">Close</button>
+        <div class="modal-content inner-card">
+            <p class="message">{{ this.modalMessage }}</p>
+            <button @click="closeModal" class="submitbtn">Close</button>
         </div>
     </div>
 </template>
@@ -25,9 +25,10 @@ export default {
     align-items: center;
     z-index: 101;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     top: 0;
+    left: 0;
     background-color: rgba(0,0,0,0.7);
 
     .modal-content {
@@ -35,8 +36,8 @@ export default {
         flex-direction: column;
         justify-content: center;
         border-radius: 8px;
-        width: 300px;
-        padding: 40px 30px;
+        width: 400px;
+        padding: 40px 20px 20px;
         background-color: #fff;
 
     p{

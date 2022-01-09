@@ -20,7 +20,8 @@
     "vue-simple-search-dropdown": "^1.0.1",
     "vue-svg-loader": "^0.16.0",
     "vue2-editor": "^2.10.2",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

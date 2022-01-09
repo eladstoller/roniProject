@@ -11,11 +11,12 @@
 				<h2 class="title">Reset Password</h2>
 				<p class="message">Forgot your password? Enter your email to reset it</p>
 				<div class="input-box">
-					<input type="text" placeholder="Email" v-model="email" class="input-field"/>
+					<input type="email" placeholder="Email" v-model="email" required class="input-field"/>
 					<email class="icon" />
 				</div>
 				<button @click.prevent="resetPassword" class="submitbtn">RESET</button>
 			</form>
+			<p class="error-message" v-if="error">{{ errorMessage }}</p>
 		</div>
 	</div>
 </template>
@@ -31,7 +32,9 @@ export default {
 	name: "ForgotPassword",
 	data() {
 		return {
-			email: null,
+			email: '',
+			error: false,
+			errorMessage: '',
 			modalActive: false,
 			modalMessage: "",
 			loading: null,
@@ -44,7 +47,6 @@ export default {
 	},
 	methods: {
 		resetPassword() {
-			this.loading = true;
 			firebase
 				.auth()
 				.sendPasswordResetEmail(this.email)
@@ -52,6 +54,8 @@ export default {
 					this.modalMessage = "if your account exists, you will recive an email";
 					this.loading = false;
 					this.modalActive = true;
+					this.error = false;
+					this.errorMessage = '';
 				})
 				.catch((err) => {
 					this.modalMessage = err.message;

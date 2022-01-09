@@ -5,7 +5,7 @@
 		</head>
 
 		<div class="container-card">
-			<button class="logoutbtn">logout</button>
+			
 
 			<form action="/action_page.php">
 				<div class="inner-card">
@@ -25,7 +25,7 @@
 								class="firstList selectFilter input-field"
 								v-on:change="manufacturereChanged"
 								v-model="Manufacturer"
-								:class="this.Manufacturer ? '' : 'error-field'"
+								:class="this.Manufacturer ? 'valid-field' : 'error-field'"
 							>
 								<option value="" selected disabled hidden>Select a Manufacturer</option>
 								<option v-for="(item, i) in manufacturerOptions" v-bind:key="i" v-bind:value="{ name: item, idx: i }">
@@ -36,7 +36,12 @@
 
 						<div class="input-box">
 							<label class="details" for="Model"><b>Model: </b></label>
-							<select data-target="thirdList" class="secondList selectFilter input-field" v-model="Model" :class="this.Model ? '' : 'error-field'">
+							<select
+								data-target="thirdList"
+								class="secondList selectFilter input-field"
+								v-model="Model"
+								:class="this.Model ? 'valid-field' : 'error-field'"
+							>
 								<option value="" selected disabled hidden>Select a Model</option>
 								<option v-for="(item, i) in modelOptions" v-bind:key="i" v-bind:value="{ name: item, idx: i }">
 									{{ item }}
@@ -46,7 +51,7 @@
 
 						<div class="input-box">
 							<label class="details" for="Condition"><b>Condition: </b></label>
-							<select name="Condition" required v-model="Condition" class="input-field" :class="this.Condition ? '' : 'error-field'">
+							<select name="Condition" required v-model="Condition" class="input-field" :class="this.Condition ? 'valid-field' : 'error-field'">
 								<option value="" selected disabled hidden>Select a Condition</option>
 								<option v-for="key in Object.keys(conditionOptions)" v-bind:key="key" v-bind:value="key">
 									{{ conditionOptions[key] }}
@@ -56,7 +61,7 @@
 
 						<div class="input-box">
 							<label class="details" for="Cylinders"><b>Cylinders: </b></label>
-							<select name="Cylinders" required v-model="Cylinders" class="input-field" :class="this.Cylinders ? '' : 'error-field'">
+							<select name="Cylinders" required v-model="Cylinders" class="input-field" :class="this.Cylinders ? 'valid-field' : 'error-field'">
 								<option value="" selected disabled hidden>Select a Cylinders</option>
 								<option v-for="key in Object.keys(cylindersOptions)" v-bind:key="key" v-bind:value="key">
 									{{ cylindersOptions[key] }}
@@ -66,7 +71,7 @@
 
 						<div class="input-box">
 							<label class="details" for="Fuel_Type"><b>Fuel Type: </b></label>
-							<select name="Fuel_Type" required v-model="Fuel_Type" class="input-field" :class="this.Fuel_Type ? '' : 'error-field'">
+							<select name="Fuel_Type" required v-model="Fuel_Type" class="input-field" :class="this.Fuel_Type ? 'valid-field' : 'error-field'">
 								<option value="" selected disabled hidden>Select a Fuel Type</option>
 								<option v-for="key in Object.keys(fuelOptions)" v-bind:key="key" v-bind:value="key">
 									{{ fuelOptions[key] }}
@@ -76,7 +81,7 @@
 
 						<div class="input-box">
 							<label class="details" for="Transmission"><b>Transmission: </b></label>
-							<select v-model="Transmission" class="input-field" :class="this.Transmission ? '' : 'error-field'">
+							<select v-model="Transmission" class="input-field" :class="this.Transmission ? 'valid-field' : 'error-field'">
 								<option value="" selected disabled hidden>Select Transmission</option>
 								<option v-for="key in Object.keys(transmissionOptions)" v-bind:key="key" v-bind:value="key">
 									{{ transmissionOptions[key] }}
@@ -86,7 +91,7 @@
 
 						<div class="input-box">
 							<label class="details" for="Drive"><b>Drive: </b></label>
-							<select name="Drive" required v-model="Drive" class="input-field" :class="this.Drive ? '' : 'error-field'">
+							<select name="Drive" required v-model="Drive" class="input-field" :class="this.Drive ? 'valid-field' : 'error-field'">
 								<option value="" selected disabled hidden>Select a Drive like 4X4</option>
 								<option v-for="key in Object.keys(driveOptions)" v-bind:key="key" v-bind:value="key">
 									{{ driveOptions[key] }}
@@ -101,7 +106,7 @@
 								required
 								v-model="Type_of_vehicle"
 								class="input-field"
-								:class="this.Type_of_vehicle ? '' : 'error-field'"
+								:class="this.Type_of_vehicle ? 'valid-field' : 'error-field'"
 							>
 								<option value="" selected disabled hidden>Select a Type of vehicle</option>
 								<option v-for="key in Object.keys(typeOptions)" v-bind:key="key" v-bind:value="key">
@@ -112,7 +117,7 @@
 
 						<div class="input-box">
 							<label class="details" for="Color"><b>Color: </b></label>
-							<select name="Color" required v-model="Color" class="input-field" :class="this.Color ? '' : 'error-field'">
+							<select name="Color" required v-model="Color" class="input-field" :class="this.Color ? 'valid-field' : 'error-field'">
 								<option value="" selected disabled hidden>Select a Color</option>
 								<option v-for="key in Object.keys(colorOptions)" v-bind:key="key" v-bind:value="key">
 									{{ colorOptions[key] }}
@@ -127,24 +132,26 @@
 								min="1910"
 								max="2022"
 								class="input-type-text input-field"
-								placeholder="Enter year between 1910 and 2022"
+								placeholder="Enter year between 2000 and 2022"
 								id="Year"
 								name="Year"
 								v-model="Year"
-								:class="this.Year ? '' : 'error-field'"
+								:class="this.Year ? 'valid-field' : 'error-field'"
 							/>
 						</div>
 
 						<div class="input-box">
 							<label class="details" for="Mileage"><b>Mileage: </b></label>
 							<input
-								type="text"
+								type="number"
+								min="100"
+								max="250000"
 								class="input-type-text input-field"
-								placeholder="Enter KM between 100-200,000"
+								placeholder="Enter mileage between 100-250,000"
 								id="Mileage"
 								name="Mileage"
 								v-model="Mileage"
-								:class="this.Mileage ? '' : 'error-field'"
+								:class="this.Mileage ? 'valid-field' : 'error-field'"
 							/>
 						</div>
 					</div>
@@ -163,6 +170,9 @@ import { models } from "../assets/models";
 import { modelsKeys } from "../assets/convert_keys";
 import { getPredictedPrice } from "../utils/api";
 import { savePredictions } from "../utils/firebaseUtils";
+import firebase from "firebase/app";
+import "firebase/auth";
+
 export default {
 	name: "Home",
 	components: {},
@@ -177,7 +187,7 @@ export default {
 			Drive: "",
 			Type_of_vehicle: "",
 			Color: "",
-			Year: "2021",
+			Year: "",
 			Mileage: "",
 			error: null,
 			errorMsg: "",
@@ -242,9 +252,25 @@ export default {
 		};
 	},
 
+	watch: {},
+
 	created() {
 		let manufacturers = Object.keys(models);
 		this.manufacturerOptions = manufacturers;
+
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				this.$store.commit("updateUser", user);
+				this.$store.dispatch("getCurrentUser");
+				if (this.$route.name !== "Home") {
+					this.$router.push({ name: "Home" });
+				}
+			} else {
+				if (this.$route.name !== "Login") {
+					this.$router.push({ name: "Login" });
+				}
+			}
+		});
 	},
 
 	methods: {
@@ -268,14 +294,14 @@ export default {
 			};
 		},
 		goToResult() {
-			if (Number(this.Year) < 1910 || Number(this.Year) > 2022) {
+			if (Number(this.Year) < 2000 || Number(this.Year) > 2021) {
 				this.error = true;
-				this.errorMsg = "Year should be in range 1910-2022";
+				this.errorMsg = "Please enter a year in range 2000-2022";
 				return;
 			}
-			if (Number(this.Mileage) < 0) {
+			if (Number(this.Mileage) < 100 || Number(this.year) > 250000) {
 				this.error = true;
-				this.errorMsg = "Mileage should be greater than 0";
+				this.errorMsg = "Please enter mileage in range 100 - 250,000";
 				return;
 			}
 			if (
@@ -314,6 +340,18 @@ export default {
 			this.error = true;
 			this.errorMsg = "Please fill out all the fields!";
 			return;
+		},
+		logOutFirebase() {
+			firebase
+				.auth()
+				.signOut()
+				.then(() => {
+					this.$store.commit("resetStoreOnLogout");
+					this.$router.push({ name: "Login" });
+				})
+				.catch(() => {
+					console.log("error", "Could not log out of firebase");
+				});
 		},
 	},
 };
@@ -423,6 +461,10 @@ body {
 
 .error-field {
 	border: solid 2px red;
+}
+
+.valid-field {
+	border: solid 2px green;
 }
 
 .error-message {
