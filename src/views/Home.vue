@@ -99,21 +99,7 @@
 							</select>
 						</div>
 
-						<div class="input-box">
-							<label class="details" for="Type_of_vehicle"><b>Type of vehicle: </b></label>
-							<select
-								name="Type_of_vehicle"
-								required
-								v-model="Type_of_vehicle"
-								class="input-field"
-								:class="this.Type_of_vehicle ? 'valid-field' : 'error-field'"
-							>
-								<option value="" selected disabled hidden>Select a Type of vehicle</option>
-								<option v-for="key in Object.keys(typeOptions)" v-bind:key="key" v-bind:value="key">
-									{{ typeOptions[key] }}
-								</option>
-							</select>
-						</div>
+						
 
 						<div class="input-box">
 							<label class="details" for="Color"><b>Color: </b></label>
@@ -132,7 +118,7 @@
 								min="1910"
 								max="2022"
 								class="input-type-text input-field"
-								placeholder="Enter year between 2000 and 2022"
+								placeholder="Enter year between 2000 - 2021"
 								id="Year"
 								name="Year"
 								v-model="Year"
@@ -296,7 +282,7 @@ export default {
 		goToResult() {
 			if (Number(this.Year) < 2000 || Number(this.Year) > 2021) {
 				this.error = true;
-				this.errorMsg = "Please enter a year in range 2000-2022";
+				this.errorMsg = "Please enter a year in range 2000-2021";
 				return;
 			}
 			if (Number(this.Mileage) < 100 || Number(this.year) > 250000) {
@@ -311,7 +297,7 @@ export default {
 				this.Fuel_Type !== "" &&
 				this.Transmission !== "" &&
 				this.Drive !== "" &&
-				this.Type_of_vehicle !== "" &&
+				
 				this.Color !== "" &&
 				this.Year !== "" &&
 				this.Mileage !== ""
@@ -460,7 +446,7 @@ body {
 }
 
 .error-field {
-	border: solid 2px red;
+	border: solid 2px gray;
 }
 
 .valid-field {
